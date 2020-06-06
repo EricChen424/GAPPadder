@@ -1,5 +1,7 @@
 import sys
 import os
+import gzip
+import mimetypes
 from subprocess import *
 from multiprocessing.dummy import Pool as ThreadPool
 from Utility import get_samtools_path
@@ -8,6 +10,14 @@ from Utility import get_samtools_path
 def run_cmd_discordant(cmd1):
     print cmd1
     check_output(cmd1, shell=True)
+	
+def open_reads(reads):
+    file_extension = mimetypes.guess_type(reads)
+    if file_extension[1] == "gzip":
+        file = gzip.open(reads, 'r')
+    else:
+        file = open(reads, 'r')
+    return file
 
 class DiscordantReadsCollector():
     def __init__(self, sf_fai, sf_bam, working_folder, nthreads):
@@ -206,7 +216,7 @@ class DiscordantReadsCollector():
         seq=""
         quality=""
         m_dispatched_reads={}
-        with open(sf_raw_left) as fin_left_raw:
+        with open_reads(sf_raw_left) as fin_left_raw:
             for line in fin_left_raw:
                 if cnt%4==0:
                     id_fields=line.split()
@@ -281,7 +291,7 @@ class DiscordantReadsCollector():
         f_right.close()
 
         cnt=0
-        with open(sf_raw_right) as fin_right_raw:
+        with open_reads(sf_raw_right) as fin_right_raw:
             for line in fin_right_raw:
                 if cnt%4==0:
                     id_fields=line.split()
@@ -380,7 +390,7 @@ class DiscordantReadsCollector():
         seq=""
         quality=""
         m_dispatched_reads={}
-        with open(sf_raw_left) as fin_left_raw:
+        with open_reads(sf_raw_left) as fin_left_raw:
             for line in fin_left_raw:
                 if cnt%4==0:
                     id_fields=line.split()
@@ -415,7 +425,7 @@ class DiscordantReadsCollector():
 
         ##deal with right reads
         cnt=0
-        with open(sf_raw_right) as fin_right_raw:
+        with open_reads(sf_raw_right) as fin_right_raw:
             for line in fin_right_raw:
                 if cnt%4==0:
                     id_fields=line.split()
@@ -498,7 +508,7 @@ class DiscordantReadsCollector():
         seq=""
         quality=""
         m_dispatched_reads={}
-        with open(sf_raw_left) as fin_left_raw:
+        with open_reads(sf_raw_left) as fin_left_raw:
             for line in fin_left_raw:
                 if cnt%4==0:
                     id_fields=line.split()
@@ -558,7 +568,7 @@ class DiscordantReadsCollector():
 
         ##deal with right reads
         cnt=0
-        with open(sf_raw_right) as fin_right_raw:
+        with open_reads(sf_raw_right) as fin_right_raw:
             for line in fin_right_raw:
                 if cnt%4==0:
                     id_fields=line.split()
