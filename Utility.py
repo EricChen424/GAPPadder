@@ -15,9 +15,9 @@ FLANK_LENGTH=300
 KMER_LIST=[]
 
 def set_software_paths(pbwa, psamtools, prefiner, pmerger, pkmc, pvelvet):
-    if pkmc[-1]!="/":
+    if pkmc and pkmc[-1]!="/":
         pkmc=pkmc+"/"
-    if pvelvet[-1]!="/":
+    if pvelvet and pvelvet[-1]!="/":
         pvelvet=pvelvet+"/"
     global  BWA_PATH
     BWA_PATH=pbwa
