@@ -115,13 +115,11 @@ class DiscordantReadsCollector():
                 if pre=="":
                     ftemp=open(s_temp_path+name+".list","w")
                 elif name!=pre:
-                    if ftemp != None:
-                        ftemp.close()
+                    ftemp.close()
                     ftemp=open(s_temp_path+name+".list","w")
                 ftemp.write(line)
                 pre=name
-            if ftemp != None:
-                ftemp.close()
+            ftemp.close()
 
 
     def dispath_collect_jobs(self):
