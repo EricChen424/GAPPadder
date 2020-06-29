@@ -18,7 +18,7 @@
 	"software_path": {
 		"bwa": "bwa",
 		"samtools": "samtools",
-		"velvet": "/gsc/btl/linuxbrew/Cellar/velvet/1.2.10/bin/",
+		"velvet": "/projects/btl/lcoombe/linuxbrew/Cellar/velvet/1.2.10/bin/",
 		"kmc": "",
 		"TERefiner": "./TERefiner_1",
 		"ContigsMerger": "./ContigsMerger"
