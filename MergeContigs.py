@@ -47,27 +47,57 @@ def remove_duplicate_contained(fcontig, foutput, cutoff, rm_contained):
     print_command(cmd)
     Popen(cmd, shell = True, stdout = PIPE).communicate()
 
-    ##clean all the temporary files
-    cmd="rm {0}.sa".format(fcontig)
-    Popen(cmd, shell = True, stdout = PIPE).communicate()
-    cmd="rm {0}.pac".format(fcontig)
-    Popen(cmd, shell = True, stdout = PIPE).communicate()
-    cmd="rm {0}.bwt".format(fcontig)
-    Popen(cmd, shell = True, stdout = PIPE).communicate()
-    cmd="rm {0}.ann".format(fcontig)
-    Popen(cmd, shell = True, stdout = PIPE).communicate()
-    cmd="rm {0}.amb".format(fcontig)
-    Popen(cmd, shell = True, stdout = PIPE).communicate()
-    cmd="rm {0}.itself.sam".format(fcontig)
-    Popen(cmd, shell = True, stdout = PIPE).communicate()
-    cmd="rm {0}.itself.bam".format(fcontig)
-    Popen(cmd, shell = True, stdout = PIPE).communicate()
-    cmd="rm {0}.itself.sort.bam".format(fcontig)
-    Popen(cmd, shell = True, stdout = PIPE).communicate()
-    cmd="rm {0}.itself.sort.bam.bai".format(fcontig)
-    Popen(cmd, shell = True, stdout = PIPE).communicate()
-    cmd="rm {0}.fai".format(fcontig)
-    Popen(cmd, shell = True, stdout = PIPE).communicate()
+	##clean all the temporary files
+    try:
+        cmd="rm {0}.sa".format(fcontig)
+        Popen(cmd, shell = True, stdout = PIPE).communicate()
+    except:
+        print("delete .sa failed")
+    try:
+        cmd="rm {0}.pac".format(fcontig)
+        Popen(cmd, shell = True, stdout = PIPE).communicate()
+    except:
+        print("delete .pac failed")
+    try:
+        cmd="rm {0}.bwt".format(fcontig)
+        Popen(cmd, shell = True, stdout = PIPE).communicate()
+    except:
+        print("delete .bwt failed")
+    try:
+        cmd="rm {0}.ann".format(fcontig)
+        Popen(cmd, shell = True, stdout = PIPE).communicate()
+    except:
+        print("delete .ann failed")
+    try:
+        cmd="rm {0}.amb".format(fcontig)
+        Popen(cmd, shell = True, stdout = PIPE).communicate()
+    except:
+        print("delete .amb failed")
+    try:
+        cmd="rm {0}.itself.sam".format(fcontig)
+        Popen(cmd, shell = True, stdout = PIPE).communicate()
+    except:
+        print("delete .itself.sam failed")
+    try:
+        cmd="rm {0}.itself.bam".format(fcontig)
+        Popen(cmd, shell = True, stdout = PIPE).communicate()
+    except:
+        print("delete .itself.bam failed")
+    try:
+        cmd="rm {0}.itself.sort.bam".format(fcontig)
+        Popen(cmd, shell = True, stdout = PIPE).communicate()
+    except:
+        print("delete .itself.sort.bam failed")
+    try:
+        cmd="rm {0}.itself.sort.bam.bai".format(fcontig)
+        Popen(cmd, shell = True, stdout = PIPE).communicate()
+    except:
+        print("delete .itself.sort.bam.bai failed")
+    try:
+        cmd="rm {0}.fai".format(fcontig)
+        Popen(cmd, shell = True, stdout = PIPE).communicate()
+    except:
+        print("delete .fai failed")
 
 
 def merge_contigs(fout_folder, nthreads, cutoff_dup_bf_merge, cutoff_dup_af_merge):
