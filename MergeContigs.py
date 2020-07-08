@@ -101,32 +101,41 @@ def remove_duplicate_contained(fcontig, foutput, cutoff, rm_contained):
 
 
 def merge_contigs(fout_folder, nthreads, cutoff_dup_bf_merge, cutoff_dup_af_merge):
-    contigs_merger_path=get_merger_path()
-    fcontig=fout_folder+"contigs.fa"
-    foutput=fcontig+"_no_dup.fa"
-    remove_duplicate_contained(fcontig, foutput, cutoff_dup_bf_merge, False)
+    try:
+        contigs_merger_path=get_merger_path()
+        fcontig=fout_folder+"contigs.fa"
+        foutput=fcontig+"_no_dup.fa"
+        print("remove dup contain 1")
+        remove_duplicate_contained(fcontig, foutput, cutoff_dup_bf_merge, False)
 
-    if os.path.exists(foutput)==True:
-        if int(os.path.getsize(foutput))>1000000:
-            os.rename(fout_folder+"contigs.fa", fout_folder+"original_contigs_before_merging.fa")
-            os.rename(foutput,fout_folder+"contigs.fa")
-            return
+        print("rename 1")
+        if os.path.exists(foutput)==True:
+            if int(os.path.getsize(foutput))>1000000:
+                os.rename(fout_folder+"contigs.fa", fout_folder+"original_contigs_before_merging.fa")
+                os.rename(foutput,fout_folder+"contigs.fa")
+                return
 
-    cmd="{0} -s 0.4 -i1 -2.0 -i2 -2.0 -x 12 -y 50 -k 10 -t {1} -m 1 -o {2}.merge.info {3} > {4}.merged.fa".format(contigs_merger_path,nthreads,foutput,foutput,foutput)
-    # ###cmd="./ContigsMerger_v0.1.7  -s 0.2 -i1 -6.0 -i2 -6.0  -x 15 -k 5 -o {0}.merge.info {1} > {2}.merged.fa".format(foutput,foutput,foutput)
-    print_command(cmd)
-    Popen(cmd, shell = True, stdout = PIPE).communicate()
+        cmd="{0} -s 0.4 -i1 -2.0 -i2 -2.0 -x 12 -y 50 -k 10 -t {1} -m 1 -o {2}.merge.info {3} > {4}.merged.fa".format(contigs_merger_path,nthreads,foutput,foutput,foutput)
+        # ###cmd="./ContigsMerger_v0.1.7  -s 0.2 -i1 -6.0 -i2 -6.0  -x 15 -k 5 -o {0}.merge.info {1} > {2}.merged.fa".format(foutput,foutput,foutput)
+        print_command(cmd)
+        Popen(cmd, shell = True, stdout = PIPE).communicate()
+            #
+        fcontig="{0}.merged.fa".format(foutput)
+        foutput="{0}.no_dup.fa".format(fcontig)
+        print("remove dup contain 2")
+        remove_duplicate_contained(fcontig,foutput, cutoff_dup_af_merge, False)
+        fcontig=foutput
+        foutput=fcontig+".no_contained.fa"
+        print("remove dup contain 3")
+        remove_duplicate_contained(fcontig, foutput, cutoff_dup_af_merge, True)
         #
-    fcontig="{0}.merged.fa".format(foutput)
-    foutput="{0}.no_dup.fa".format(fcontig)
-    remove_duplicate_contained(fcontig,foutput, cutoff_dup_af_merge, False)
-    fcontig=foutput
-    foutput=fcontig+".no_contained.fa"
-    remove_duplicate_contained(fcontig, foutput, cutoff_dup_af_merge, True)
-    #
-    # #rename contigs.fa
-    os.rename(fout_folder+"contigs.fa", fout_folder+"original_contigs_before_merging.fa")
-    os.rename(foutput,fout_folder+"contigs.fa")
+        # #rename contigs.fa
+        print("rename 2")
+        os.rename(fout_folder+"contigs.fa", fout_folder+"original_contigs_before_merging.fa")
+        os.rename(foutput,fout_folder+"contigs.fa")
+    except:
+        print("Unexpected error:", sys.exc_info()[0])
+        return;
 
 
 def rm_dup_contain(fout_folder, cutoff_dup_af_merge):
